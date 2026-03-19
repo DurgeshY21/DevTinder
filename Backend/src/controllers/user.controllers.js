@@ -34,6 +34,8 @@ const signupUser = async (req, res) => {
         // Catch validation errors
         console.error("Signup Error:", err.message);
         res.status(400).json({ error: "ERROR: " + err.message });
+
+        
     }
 };
 
