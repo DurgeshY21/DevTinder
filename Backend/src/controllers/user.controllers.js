@@ -1,8 +1,12 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
+const { validateSignUpData } = require("../validations/auth.validation");
 
 const signupUser = async (req, res) => {
     try {
+        // Validate the request data
+        validateSignUpData(req);
+
         // Extract the data from the incoming request body
         const { firstName, lastName, email, password, age, gender } = req.body;
 
@@ -34,8 +38,6 @@ const signupUser = async (req, res) => {
         // Catch validation errors
         console.error("Signup Error:", err.message);
         res.status(400).json({ error: "ERROR: " + err.message });
-
-        
     }
 };
 
