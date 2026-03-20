@@ -1,6 +1,6 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
-const { validateSignUpData } = require("../validations/auth.validation");
+const { validateSignUpData, validateLoginData } = require("../validations/auth.validation");
 
 const signupUser = async (req, res) => {
     try {
@@ -41,6 +41,50 @@ const signupUser = async (req, res) => {
     }
 };
 
+const loginUser = async (req, res) => {
+    try {
+        // Validate the request data
+        validateLoginData(req);
+
+        const { email, password } = req.body;
+
+        // Find the user in the DB by email
+        const user = await User.findOne({ email: email.toLowerCase() });
+
+        if (!user) {
+            // Use a generic message to avoid exposing whether email exists
+            return res.status(401).json({ error: "Invalid email or password." });
+        }
+
+        // Compare the provided password with the hashed password stored in DB
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: "Invalid email or password." });
+        }
+
+        // Login successful — return user info (never return the password!)
+        res.status(200).json({
+            message: "Login successful!",
+            user: {
+                _id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                age: user.age,
+                gender: user.gender,
+                photoUrl: user.photoUrl,
+                about: user.about,
+                skills: user.skills,
+            }
+        });
+    } catch (err) {
+        console.error("Login Error:", err.message);
+        res.status(400).json({ error: "ERROR: " + err.message });
+    }
+};
+
 module.exports = {
-    signupUser
+    signupUser,
+    loginUser
 };
