@@ -1,122 +1,72 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
-/* ── Design System ── */
-:root {
-  --bg:           #0d0d0f;
-  --bg-2:         #141418;
-  --bg-card:      rgba(255,255,255,0.04);
-  --border:       rgba(255,255,255,0.08);
-  --text:         #a0a0b0;
-  --text-h:       #f0f0ff;
-  --primary:      #fe3c72;      /* DevTinder signature pink */
-  --primary-dark: #d92a5e;
-  --accent:       #7c3aed;      /* Purple accent */
-  --accent-2:     #2563eb;      /* Blue accent */
-  --glow-pink:    rgba(254, 60, 114, 0.35);
-  --glow-purple:  rgba(124, 58, 237, 0.3);
-  --glow-blue:    rgba(37, 99, 235, 0.25);
-  --gradient:     linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-  --font:         'Inter', system-ui, sans-serif;
-  --radius:       16px;
-  --radius-sm:    10px;
-  --shadow:       0 20px 60px rgba(0,0,0,0.5);
-}
-
-/* ── Reset ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
+/* Inter only — same family for UI, headline (heavy), and body copy */
+@import url('https://fonts.googleapis.com/css2?family=Boldonse&display=swap');
+@import 'tailwindcss';
 
 body {
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  font-family: "Boldonse", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
 
-#root {
-  width: 100%;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+/* Same font stack as before: Inter + system fallbacks */
+@theme {
+  --color-page: #050505;
+  --color-page-2: #0c0c0e;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-muted: #8b8b9a;
+  --color-foreground: #f4f4f8;
+  --color-brand: #8b5cf6;
+  --color-brand-hover: #6d28d9;
+  --color-teal: #5eead4;
+  --color-something: #a78bfa;
+  --color-badge-teal: rgba(13, 148, 136, 0.55);
 }
 
-a { text-decoration: none; color: inherit; }
-img { display: block; }
-
-/* ── Utility ── */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
+@utility bg-protocol-grid {
+  background-color: var(--color-page);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: center top;
 }
 
-.gradient-text {
-  background: var(--gradient);
+@utility text-gradient-brand {
+  background-image: linear-gradient(90deg, #a78bfa 0%, #6366f1 45%, #22d3ee 100%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: transparent;
 }
 
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 32px;
-  background: var(--primary);
-  color: #fff;
-  font-family: var(--font);
-  font-size: 16px;
-  font-weight: 700;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 30px var(--glow-pink);
-  white-space: nowrap;
-}
-.btn-primary:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 0 50px var(--glow-pink);
-}
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-.btn-outline {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 13px 30px;
-  background: transparent;
-  color: var(--text-h);
-  font-family: var(--font);
-  font-size: 16px;
-  font-weight: 600;
-  border: 1.5px solid var(--border);
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
-.btn-outline:hover {
-  border-color: rgba(255,255,255,0.3);
-  background: rgba(255,255,255,0.06);
-  transform: translateY(-2px);
-}
+  html {
+    scroll-behavior: smooth;
+  }
 
-/* ── Section Titles ── */
-.section-title {
-  font-size: clamp(32px, 5vw, 52px);
-  font-weight: 800;
-  color: var(--text-h);
-  line-height: 1.1;
-  letter-spacing: -1.5px;
-}
-.section-sub {
-  font-size: 18px;
-  color: var(--text);
-  line-height: 1.6;
-  max-width: 580px;
-  margin: 16px auto 0;
+  body {
+    @apply m-0 bg-page font-sans text-muted antialiased;
+    overflow-x: hidden;
+  }
+
+  #root {
+    width: 100%;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  img {
+    display: block;
+  }
 }

@@ -1,66 +1,29 @@
-import '../App.css';
+import { useEffect, useState } from 'react';
+
+function formatUptime(seconds) {
+  const d = Math.floor(seconds / 86400);
+  const h = Math.floor((seconds % 86400) / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${pad(d)}:${pad(h)}:${pad(m)}:${pad(s)}`;
+}
 
 export default function Footer() {
+  const [uptimeSec, setUptimeSec] = useState(0);
+
+  useEffect(() => {
+    const start = Date.now();
+    const id = setInterval(() => {
+      setUptimeSec(Math.floor((Date.now() - start) / 1000));
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
-    <footer className="footer">
-      <div className="footer-inner">
-        <div className="footer-top">
-          {/* Brand */}
-          <div className="footer-brand">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-              <div className="navbar-logo-icon" style={{
-                width: 32, height: 32, background: 'var(--gradient)',
-                borderRadius: 8, display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontSize: 15,
-              }}>💻</div>
-              <span style={{ fontSize: 18, fontWeight: 800, color: 'var(--text-h)' }}>
-                Dev<span style={{ color: 'var(--primary)' }}>Tinder</span>
-              </span>
-            </div>
-            <p>Where developers meet, match, and build the future — one swipe at a time.</p>
-          </div>
-
-          {/* Link columns */}
-          <div className="footer-links-group">
-            <div className="footer-col">
-              <h4>Product</h4>
-              <ul>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#how-it-works">How it works</a></li>
-                <li><a href="#">Pricing</a></li>
-                <li><a href="#">Changelog</a></li>
-              </ul>
-            </div>
-            <div className="footer-col">
-              <h4>Company</h4>
-              <ul>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Careers</a></li>
-                <li><a href="#">Contact</a></li>
-              </ul>
-            </div>
-            <div className="footer-col">
-              <h4>Legal</h4>
-              <ul>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms of Service</a></li>
-                <li><a href="#">Cookie Policy</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom bar */}
-        <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} DevTinder. All rights reserved.</span>
-          <div className="footer-socials">
-            {['🐦', '🐙', '💼', '📸'].map((icon, i) => (
-              <button key={i} className="footer-social-btn" title="Social">{icon}</button>
-            ))}
-          </div>
-        </div>
-      </div>
+    <footer className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-white/5 px-7 pb-6 pt-4 font-mono text-[11px] tracking-[0.06em] text-[rgba(139,139,154,0.75)]">
+      <span>KERNEL_VER: 8.2.1-SYNTH</span>
+      <span>UPTIME: {formatUptime(uptimeSec)}</span>
     </footer>
   );
 }
